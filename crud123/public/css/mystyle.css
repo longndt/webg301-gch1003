@@ -1,0 +1,15 @@
+h1 {
+   color: blue;
+   font-style: italic;
+   font-weight: bold;
+}
+
+img#laptop {
+   border-radius: 50%;
+}
+
+a:hover {
+   color: red;
+   font-size: 150%;
+   text-decoration: underline;
+}
