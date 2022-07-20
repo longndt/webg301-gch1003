@@ -55,7 +55,7 @@ class BlogController extends AbstractController
     }
 }
      //SQL: SELECT * FROM Blog WHERE id = 'id'
-     #[Route('/blog/{id}', methods: 'GET', name: 'view_blog_by_id_api')]
+     #[Route('/blog/view/{id}', methods: 'GET', name: 'view_blog_by_id_api')]
      public function viewBlogById ($id, BlogRepository $blogRepository, ManagerRegistry $managerRegistry) {
       //B1: lấy dữ liệu của blog từ DB theo id
         $blog1 = $blogRepository->find($id);
@@ -76,7 +76,7 @@ class BlogController extends AbstractController
     }
 }
      //SQL: DELETE FROM Blog WHERE id = 'id'
-     #[Route('/blog/{id}', methods: 'DELETE', name: 'delete_blog_api')]
+     #[Route('/blog/delete/{id}', methods: 'DELETE', name: 'delete_blog_api')]
      public function removeBlog ($id, BlogRepository $blogRepository, ManagerRegistry $managerRegistry) {
        $blog = $blogRepository->find($id);
        if ($blog == null) {
@@ -95,7 +95,7 @@ class BlogController extends AbstractController
      }
 
      //SQL: INSERT INTO Blog (....) VALUES (....)
-     #[Route('/blog', methods: 'POST', name: 'add_blog_api')]
+     #[Route('/blog/add', methods: 'POST', name: 'add_blog_api')]
      public function addBlog (Request $request) {
         //B1: tạo mới 1 object $blog để lưu dữ liệu gửi từ client
         $blog = new Blog;
@@ -114,7 +114,7 @@ class BlogController extends AbstractController
      }
 
      //SQL: UPDATE Blog SET .... WHERE id = 'id'
-     #[Route('/blog/{id}', methods: 'PUT', name: 'update_blog_api')]
+     #[Route('/blog/edit/{id}', methods: 'PUT', name: 'update_blog_api')]
      public function editBlog ($id, Request $request) {
           //B1: lấy dữ liệu của $blog theo id
           $blog = $this->getDoctrine()->getRepository(Blog::class)->find($id);
