@@ -67,24 +67,25 @@ class BlogController extends AbstractController
         return new Response($error, Response::HTTP_NOT_FOUND); //status = 404
       } else {
         //B2: convert dữ liệu sang api
-        $data = $this->serializerInterface->serialize($blog2, "xml");
+        $data = $this->serializerInterface->serialize($blog2, "json");
         //B3: response api cho client
         return new Response($data, 200, 
                           [
-                              'content-type' => 'application/xml'
+                              'content-type' => 'application/json'
                           ]);
     }
 }
      //SQL: DELETE FROM Blog WHERE id = 'id'
      #[Route('/blog/{id}', methods: 'DELETE', name: 'delete_blog_api')]
-     public function removeBlog ($id, BlogRepository $blogRepository) {
+     public function removeBlog ($id, BlogRepository $blogRepository, ManagerRegistry $managerRegistry) {
        $blog = $blogRepository->find($id);
        if ($blog == null) {
           return new Response("Blog not found => Can not delete", Response::HTTP_BAD_REQUEST); //code: 400
        }
        else {
           //gọi ra entity (object manager)
-          $manager = $this->getDoctrine()->getManager();  
+          //$manager = $this->getDoctrine()->getManager();  
+          $manager = $managerRegistry->getManager();
           //thực hiện lệnh xóa remove bằng manager
           $manager->remove($blog);
           //luôn luôn flush ở cuối cùng
@@ -96,12 +97,43 @@ class BlogController extends AbstractController
      //SQL: INSERT INTO Blog (....) VALUES (....)
      #[Route('/blog', methods: 'POST', name: 'add_blog_api')]
      public function addBlog (Request $request) {
-
+        //B1: tạo mới 1 object $blog để lưu dữ liệu gửi từ client
+        $blog = new Blog;
+        //B2: dùng hàm json_decode để giải mã dữ liệu gửi từ client theo format JSON
+        $data = json_decode($request->getContent(),true);
+        //B3: set dữ liệu vào từng thuộc tính của object $blog
+        $blog->setTitle($data['title']);
+        $blog->setContent($data['content']);
+        $blog->setDate(\DateTime::createFromFormat('Y-m-d',$data['date']));
+        //B4: lưu dữ liệu của $blog vào DB thông qua manager
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($blog);
+        $manager->flush();
+        //B5: trả về response
+        return new Response("Add blog succeed", Response::HTTP_CREATED); //code: 201
      }
 
      //SQL: UPDATE Blog SET .... WHERE id = 'id'
      #[Route('/blog/{id}', methods: 'PUT', name: 'update_blog_api')]
      public function editBlog ($id, Request $request) {
-
+          //B1: lấy dữ liệu của $blog theo id
+          $blog = $this->getDoctrine()->getRepository(Blog::class)->find($id);
+          if ($blog == null) {
+            return new Response("Blog not found => Can not update", Response::HTTP_BAD_REQUEST); //code: 400
+           }
+          else {
+            //B2: dùng hàm json_decode để giải mã dữ liệu gửi từ client theo format JSON
+            $data = json_decode($request->getContent(),true);
+            //B3: set dữ liệu vào từng thuộc tính của object $blog
+            $blog->setTitle($data['title']);
+            $blog->setContent($data['content']);
+            $blog->setDate(\DateTime::createFromFormat('Y-m-d',$data['date']));
+            //B4: lưu dữ liệu của $blog vào DB thông qua manager
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($blog);
+            $manager->flush();
+            //B5: trả về response
+            return new Response("Update blog succeed", Response::HTTP_ACCEPTED); //code: 202
+           }   
      }
 }
