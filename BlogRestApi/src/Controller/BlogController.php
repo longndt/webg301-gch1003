@@ -77,8 +77,20 @@ class BlogController extends AbstractController
 }
      //SQL: DELETE FROM Blog WHERE id = 'id'
      #[Route('/blog/{id}', methods: 'DELETE', name: 'delete_blog_api')]
-     public function removeBlog ($id) {
-
+     public function removeBlog ($id, BlogRepository $blogRepository) {
+       $blog = $blogRepository->find($id);
+       if ($blog == null) {
+          return new Response("Blog not found => Can not delete", Response::HTTP_BAD_REQUEST); //code: 400
+       }
+       else {
+          //gọi ra entity (object manager)
+          $manager = $this->getDoctrine()->getManager();  
+          //thực hiện lệnh xóa remove bằng manager
+          $manager->remove($blog);
+          //luôn luôn flush ở cuối cùng
+          $manager->flush();
+          return new Response(null, Response::HTTP_NO_CONTENT);  //code: 204
+       }
      }
 
      //SQL: INSERT INTO Blog (....) VALUES (....)
