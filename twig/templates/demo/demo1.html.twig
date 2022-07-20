@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<h1 class="alert alert-primary"> This is demo 1 page </h1>
+<a href="{{ path('d2') }}">Link to demo2 page</a>
+{% set a = 5 %}   {# integer #}
+{% set b = 7.5 %}  {# float #}
+{% set c = "Hello World" %} {# string #}
+{% set d = a + b %}
+{% set e = a * b %}
+<h3>{{ c }}</h3>
+<h3>d = a + b = {{a}} + {{b}} = {{d}}</h3>
+<h3>e = a * b = {{a}} * {{b}} = {{e}}</h3>
+{% set grade = 3.5 %}
+{% if grade >= 5.0 %}
+   <i>{{grade}} : Pass</i>
+{% else %}
+   <i>{{grade}} : Fail</i>
+{% endif %}
+<br>
+{% set gender = "A" %}
+{% if gender == "M" or gender == "Male" %}
+   <b>You are male</b>
+{% elseif gender == "F" or gender == "Female" %}
+   <b>You are female</b>
+{% else %}
+   <b>You are LGBT</b>
+{% endif %}
+<br>
+{% for i in 1..10 %}
+   {{ i }}
+{% endfor %}
+<br>
+{% for i in 'a'..'z' %}
+   {{ i }}
+{% endfor %}
+<br>
+{% set vn = "Vietnam" %}
+{{ vn|upper}} <br>
+{{ vn|lower}} <br>
+{{ max(1..30)}} <br>
+{{ min(5..50)}} <br>
+{{ max(40,10,60,12,0,86)}} <br>
+{% set list = [4,5,6,72,1305,144,999,10000] %}
+Min value of list : {{ min(list)}} <br>
+Size of list : {{ list|length}} <br>
+{% endblock %}
