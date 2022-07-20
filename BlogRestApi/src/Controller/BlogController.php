@@ -54,13 +54,27 @@ class BlogController extends AbstractController
         );
     }
 }
- 
      //SQL: SELECT * FROM Blog WHERE id = 'id'
      #[Route('/blog/{id}', methods: 'GET', name: 'view_blog_by_id_api')]
-     public function viewBlogById ($id) {
-
-     }
-
+     public function viewBlogById ($id, BlogRepository $blogRepository, ManagerRegistry $managerRegistry) {
+      //B1: lấy dữ liệu của blog từ DB theo id
+        $blog1 = $blogRepository->find($id);
+        $blog2 = $this->getDoctrine()->getRepository(Blog::class)->find($id);
+        $blog3 = $managerRegistry->getRepository(Blog::class)->find($id);
+      //check blog id có tồn tại hay không
+      if ($blog1 == null) {
+        $error = "Blog id not found";
+        return new Response($error, Response::HTTP_NOT_FOUND); //status = 404
+      } else {
+        //B2: convert dữ liệu sang api
+        $data = $this->serializerInterface->serialize($blog2, "xml");
+        //B3: response api cho client
+        return new Response($data, 200, 
+                          [
+                              'content-type' => 'application/xml'
+                          ]);
+    }
+}
      //SQL: DELETE FROM Blog WHERE id = 'id'
      #[Route('/blog/{id}', methods: 'DELETE', name: 'delete_blog_api')]
      public function removeBlog ($id) {
