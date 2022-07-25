@@ -25,7 +25,7 @@ class NoteController extends AbstractController
                  [
                     'widget' => 'single_text'
                  ])
-                 ->add('Add', SubmitType::class)
+                 //->add('Add', SubmitType::class)
                  ->getForm();
     //handle request gửi từ form
     $form->handleRequest($request);
@@ -36,12 +36,22 @@ class NoteController extends AbstractController
         //tạo biến để lưu từng thông tin riêng biệt trong form
         $content = $data->content;
         $date = $data->date->format('Y-m-d');
+        //set dữ liệu vào biến $note
+        $note->setContent($content);
+        $note->setDate(\DateTime::createFromFormat('Y-m-d',$date));
         //cách 1: render ra trang success để show thông tin vừa nhập
-        return $this->render('note/success.html.twig',
-        [
-            'content' => $content,
-            'date' => $date
-        ]);
+        // return $this->render('note/success.html.twig',
+        // [
+        //     // 'content' => $content,
+        //     // 'date' => $date
+        //     'note' => $note
+        // ]);
+        //cách 2: redirect đến trang success sử dụng hàm redirectToRoute
+        return $this->redirectToRoute('add_note_success',
+            [
+                'content' => $content,
+                'date' => $date
+            ]);
     }
     //mặc định hàm này sẽ render ra form để người dùng nhập lúc đầu hoặc nhập lại nếu nhập sai
     //cách 1: dùng hàm createView()
@@ -55,5 +65,16 @@ class NoteController extends AbstractController
    #[Route('/create', name: 'create_new_note')]
    public function createNewNote() {
 
+   }
+
+   #[Route('/success', name: 'add_note_success')]
+   public function addNoteSuccess (Request $request) {
+     $content = $request->query->get('content');
+     $date = $request->query->get('date');
+     return $this->render('note/success.html.twig',
+     [
+        'content' => $content,
+        'date' => $date
+    ]);
    }
 }

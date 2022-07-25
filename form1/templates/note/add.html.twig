@@ -6,7 +6,13 @@
 <div class="container col-md-7 text-center mt-3">
    <h3 class="alert alert-danger">Add new note</h3>
    <div class="card p-3 bg-info">
-      {{ form (noteForm) }}
+   {# Cách 1: đơn giản nhưng update được form #}
+      {# {{ form (noteForm) }} #}
+   {# Cách 2: đầy đủ, có thể add thêm thông tin vào form #}
+      {{ form_start (noteForm) }}
+      {{ form_widget (noteForm) }}
+         <input class="btn btn-outline-danger" type="submit" value="Save">
+      {{ form_end (noteForm) }}
    </div>
 </div>
 {% endblock %}
