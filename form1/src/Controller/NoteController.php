@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Note;
+use App\Form\NoteType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -63,8 +64,27 @@ class NoteController extends AbstractController
 
    //Cách 2: tạo form ở class ngoài và gọi đến trong Controller sử dụng hàm createForm (recommended)
    #[Route('/create', name: 'create_new_note')]
-   public function createNewNote() {
-
+   public function createNewNote(Request $request) {
+     $note = new Note;
+     $form = $this->createForm(NoteType::class,$note);
+     $form->handleRequest($request);
+     if ($form->isSubmitted() && $form->isValid()) {
+        $data = $form->getData();
+        $note->setContent($data->content);
+        $note->setDate(\DateTime::createFromFormat('Y-m-d',$data->date->format('Y-m-d')));
+        $note->setQuantity($data->quantity);
+        $note->setMoney($data->money);
+        $note->setImage($data->image);
+        $note->setCategory($data->category);
+        return $this->render('note/output.html.twig',
+        [
+            'note' => $note
+        ]);
+     }
+     return $this->renderForm('note/input.html.twig',
+     [
+        'noteForm' => $form
+     ]);
    }
 
    #[Route('/success', name: 'add_note_success')]
