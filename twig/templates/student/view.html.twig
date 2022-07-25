@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<table class="table table-primary">
+     <tr>
+      <th>Student Name</th>
+      <td>{{ student.name }}
+   </tr>
+     <tr>
+      <th>Student Age</th>
+      <td>{{ student.age }}
+   </tr>  <tr>
+      <th>Student Mobile</th>
+      <td>{{ student.mobile }}
+   </tr>
+     <tr>
+      <th>Student Email</th>
+      <td>{{ student.email }}
+   </tr>
+      <tr>
+      <th>Student Grade</th>
+      <td>{{ student.grade }}
+   </tr>
+      <tr>
+      <th>Student Address</th>
+      <td>{{ student.address }}
+   </tr>
+</table>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<table class="table table-info">
+   <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Address</th>
+      <th>Mobile</th>
+      <th>Email</th>
+      <th>Grade</th>
+   </tr>
+   {% for student in students %}
+   <tr>
+      <td>{{ student.name }} </td>
+      <td>{{ student.age }}</td>
+      <td>{{ student.address }}</td>
+      <td>{{ student.mobile }}</td>
+      <td>{{ student.email }}</td>
+      <td>{{ student.grade }}</td>
+   </tr>
+   {% endfor %}
+</table>   
+{% endblock %}

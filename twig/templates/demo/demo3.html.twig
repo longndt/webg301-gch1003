@@ -1,0 +1,26 @@
+City: {{ city }} <br>
+Year: {{ nam }}  <br>
+Grade: {{ grade }} <br>
+Names: <br>
+<ul>
+{% for n in list %}
+  <li> {{ n }} </li>
+{% endfor %}
+</ul>
+<br>
+<table border="1">
+   <thead>
+      <tr>
+         <th>Age</th>
+      </tr>
+   </thead>
+   <tbody>
+   {% for a in age %}
+      <tr>
+         <td>{{ a }}</td>
+      </tr>
+   {% endfor %}
+   </tbody>
+</table>
+
+
