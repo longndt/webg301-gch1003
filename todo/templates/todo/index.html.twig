@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block title %} Todo List {% endblock %}
+{% block body %}
+
+<table class="table table-info">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Menu</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for todo in todos %}
+        <tr>
+            <td>{{ todo.id }}</td>
+            <td>{{ todo.title }}</td>
+            <td>{{ todo.category }}</td>
+            <td>
+                <a class="btn btn-info" href="#">Detail</a>
+                <a class="btn btn-warning" href="#">Edit</a>
+                <a class="btn btn-danger" href="#"
+                onclick="return confirm('Are you sure to delete this Todo ?')";
+                >Delete</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
