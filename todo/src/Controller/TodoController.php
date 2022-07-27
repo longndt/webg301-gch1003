@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Todo;
+use App\Form\TodoType;
 use App\Repository\TodoRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 #[Route('/todo')]
 class TodoController extends AbstractController
@@ -57,5 +59,46 @@ class TodoController extends AbstractController
        $this->addFlash('Success','Delete todo succeed');  
      }
      return $this->redirectToRoute("view_all_todos");
+   }
+
+   #[Route('/add', name: 'add_todo')]
+   public function TodoAdd (Request $request) {
+      //tạo object của entity để lưu dữ liệu nhập từ form
+      $todo = new Todo;
+      //tạo form cho người dùng nhập từ form TodoType
+      $form = $this->createForm(TodoType::class, $todo);
+      //handle request của form
+      $form->handleRequest($request);
+      //check xem form đã được submit hay chưa & dữ liệu có hợp lệ hay không
+      if ($form->isSubmitted() && $form->isValid()) {
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($todo);
+        $manager->flush();
+        $this->addFlash('Success', 'Add todo successfully !');
+        return $this->redirectToRoute("view_all_todos");
+      }
+      //render ra form để nhập liệu
+      return $this->renderForm('todo/add.html.twig',
+        [
+          'TodoForm' => $form
+        ]);
+   }
+
+   #[Route('/edit/{id}', name: 'edit_todo')]
+   public function TodoEdit ($id, Request $request, TodoRepository $todoRepository) {
+      $todo = $todoRepository->find($id);
+      $form = $this->createForm(TodoType::class, $todo);
+      $form->handleRequest($request);
+      if ($form->isSubmitted() && $form->isValid()) {
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($todo);
+        $manager->flush();
+        $this->addFlash('Success', 'Edit todo successfully !');
+        return $this->redirectToRoute("view_all_todos");
+      }
+      return $this->renderForm('todo/edit.html.twig',
+        [
+          'TodoForm' => $form
+        ]);
    }
 }
