@@ -15,8 +15,25 @@
         {% endblock %}
     </head>
     <body>
-        <div class="container col-md-7 text-center mt-3">
-            {% block body %}{% endblock %}
+       <div class="container col-md-7 text-center mt-3">
+        {% block header %}
+            <h4 class="alert alert-danger text-center text-uppercase">Todo App</h4>
+            <nav class="navbar navbar-expand navbar-light bg-light mb-3">
+                <div class="nav navbar-nav">
+                    <a class="btn btn-outline-primary" href="{{ path('view_all_todos')}}">Todo List</a>
+                    <a class="btn btn-outline-success" href="#">Add Todo</a>
+                    <a class="btn btn-outline-info" href="#"
+                    onclick="return alert('This is Todo Application by Symfony !');"
+                    >About</a>
+                </div>
+            </nav>
+        {% endblock %}
+     
+        {% block body %}{% endblock %}
+
+        {% block footer %}
+            <p class="alert alert-warning">Copyright by WEBG301 - Summer 2022 </p>
+        {% endblock %}
         </div>
     </body>
 </html>
