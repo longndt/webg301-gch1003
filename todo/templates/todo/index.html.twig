@@ -3,7 +3,8 @@
 {% block title %} Todo List {% endblock %}
 {% block body %}
 
-<table class="table table-info">
+<h4 class="text text-info">Total: {{ todos | length }} </h4>
+<table class="table table-info mt-3">
     <thead>
         <tr>
             <th>No.</th>
@@ -22,7 +23,7 @@
             <td>
                 <a class="btn btn-info" href="{{ path('view_todo_by_id', {'id' : todo.id })}}">Detail</a>
                 <a class="btn btn-warning" href="#">Edit</a>
-                <a class="btn btn-danger" href="#"
+                <a class="btn btn-danger" href="{{ path('delete_todo', {'id' : todo.id})}}"
                 onclick="return confirm('Are you sure to delete this Todo ?')";
                 >Delete</a>
             </td>

@@ -16,23 +16,30 @@
     </head>
     <body>
        <div class="container col-md-8 text-center mt-3">
+        {% block message %}
+            {% for flash in app.session.flashBag.get('Error') %}
+                <p class="alert alert-danger">{{ flash }}</p>        
+            {% endfor %}
+            {% for flash in app.session.flashBag.get('Success') %}
+                <p class="alert alert-success">{{ flash }}</p>        
+            {% endfor %}
+        {% endblock %}
         {% block header %}
-            <h4 class="alert alert-danger text-center text-uppercase">Todo App</h4>
             <nav class="navbar navbar-expand navbar-light bg-light mb-3">
                 <div class="nav navbar-nav">
-                    <a class="btn btn-outline-primary" href="{{ path('view_all_todos')}}">Todo List</a>
+                    <a class="btn btn-outline-success" href="{{ path('view_all_todos')}}">Todo List</a>
                     <a class="btn btn-outline-success" href="#">Add Todo</a>
                     <a class="btn btn-outline-info" href="#"
                     onclick="return alert('This is Todo Application by Symfony !');"
                     >About</a>
-                </div>
+                </div>          
             </nav>
         {% endblock %}
      
         {% block body %}{% endblock %}
 
         {% block footer %}
-            <p class="alert alert-warning">Copyright by WEBG301 - Summer 2022 </p>
+            <p class="alert alert-warning mt-3">Copyright by WEBG301 - Summer 2022 </p>
         {% endblock %}
         </div>
     </body>

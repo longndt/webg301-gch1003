@@ -31,9 +31,31 @@ class TodoController extends AbstractController
    #[Route('/detail/{id}', name: 'view_todo_by_id')]
    public function TodoDetail ($id) {
       $todo = $this->getDoctrine()->getRepository(Todo::class)->find($id);
-      return $this->render("todo/detail.html.twig",
-          [
-            'todo' => $todo
-          ]);
+      //check xem id có tồn tại không => $todo có khác null không
+      if ($todo != null) {
+        return $this->render("todo/detail.html.twig",
+        [
+          'todo' => $todo
+        ]);
+      } else { //$todo = null
+        //gửi message lỗi về phía front-end (view - client side)
+        $this->addFlash("Error","Todo not found !");
+        //chuyển về trang todo list
+        return $this->redirectToRoute("view_all_todos");
+      }     
+   }
+
+   #[Route('/delete/{id}', name: 'delete_todo')]
+   public function TodoDelete ($id, ManagerRegistry $managerRegistry) {
+     $todo = $managerRegistry->getRepository(Todo::class)->find($id);
+     if ($todo == null) {
+       $this->addFlash("Error","Todo not found !");
+     } else {  // $todo != null
+       $manager = $managerRegistry->getManager();
+       $manager->remove($todo);
+       $manager->flush();
+       $this->addFlash('Success','Delete todo succeed');  
+     }
+     return $this->redirectToRoute("view_all_todos");
    }
 }
