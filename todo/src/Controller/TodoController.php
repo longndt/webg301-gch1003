@@ -9,9 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route('/todo')]
 class TodoController extends AbstractController
 {
-   #[Route('/todo/viewall', name: 'view_all_todos')]
+   #[Route('/viewall', name: 'view_all_todos')]
    public function TodoIndex(TodoRepository $todoRepository, ManagerRegistry $managerRegistry) {
       //lấy dữ liệu từ bảng Todo trong DB
         //Cách 1
@@ -25,5 +26,14 @@ class TodoController extends AbstractController
             [
                 'todos' => $todos
             ]);
+   }
+
+   #[Route('/detail/{id}', name: 'view_todo_by_id')]
+   public function TodoDetail ($id) {
+      $todo = $this->getDoctrine()->getRepository(Todo::class)->find($id);
+      return $this->render("todo/detail.html.twig",
+          [
+            'todo' => $todo
+          ]);
    }
 }

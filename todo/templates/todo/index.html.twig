@@ -13,19 +13,21 @@
         </tr>
     </thead>
     <tbody>
+    {% set i = 1 %}
     {% for todo in todos %}
         <tr>
-            <td>{{ todo.id }}</td>
+            <td>{{ i }}</td>
             <td>{{ todo.title }}</td>
             <td>{{ todo.category }}</td>
             <td>
-                <a class="btn btn-info" href="#">Detail</a>
+                <a class="btn btn-info" href="{{ path('view_todo_by_id', {'id' : todo.id })}}">Detail</a>
                 <a class="btn btn-warning" href="#">Edit</a>
                 <a class="btn btn-danger" href="#"
                 onclick="return confirm('Are you sure to delete this Todo ?')";
                 >Delete</a>
             </td>
         </tr>
+        {% set i = i + 1 %}
     {% endfor %}
     </tbody>
 </table>

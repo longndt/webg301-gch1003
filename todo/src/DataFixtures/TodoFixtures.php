@@ -15,7 +15,7 @@ class TodoFixtures extends Fixture
             $todo->setTitle("Todo $i");
             $todo->setCategory("Personal");
             $todo->setContent("This is my Todo content");
-            $todo->setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmr13jfFAO6CM78lHRW2uvFpv_1O4DIdXtZA&usqp=CAU");
+            $todo->setImage("https://w7.pngwing.com/pngs/972/511/png-transparent-todo-sketch-note-list-tasks-thumbnail.png");
             $todo->setDate(\DateTime::createFromFormat("Y/m/d","2022/07/27"));
             $manager->persist($todo);
         }
