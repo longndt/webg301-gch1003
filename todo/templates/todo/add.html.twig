@@ -1,14 +1,58 @@
-{% form_theme TodoForm 'bootstrap_5_layout.html.twig' %}
 {% extends "layout.html.twig" %}
 
 {% block body %}
 <center>
-<div class="card col-md-8 p-3 bg-light">
-   <h3 class="text text-success">Add new Todo</h3>
-   {{ form_start (TodoForm) }}
-   {{ form_widget (TodoForm) }}
-     <input class="btn btn-primary" type="submit" value="Add">
-   {{ form_end (TodoForm) }}
-</div>
+  <div class="card col-md-8 p-3 bg-light">
+    <h3 class="text text-success">Add Todo</h3>
+    {{ form_start (TodoForm) }}
+      <div class="form-group">
+        <label for="title" class="text text-primary">Todo Title</label>
+         {{ form_widget (TodoForm.title, {
+          'attr' : {
+            'class' : 'form-control',
+            'placeholder' : 'Enter a title (Min length = 5)'
+          }
+         } )}} 
+      </div>
+        <div class="form-group">
+        <label for="content" class="text text-primary">Todo Content</label>
+         {{ form_widget (TodoForm.content, {
+          'attr' : {
+            'class' : 'form-control',
+            'placeholder' : 'Enter detail content (Max length = 50)'
+          }
+         } )}} 
+      </div>
+        <div class="form-group">
+        <label for="category" class="text text-primary">Todo Category</label>
+         {{ form_widget (TodoForm.category, {
+          'attr' : {
+            'class' : 'form-control',
+            'placeholder' : 'Select category'
+          }
+         } )}} 
+      </div>
+        <div class="form-group">
+        <label for="date" class="text text-primary">Todo Deadline</label>
+         {{ form_widget (TodoForm.date, {
+          'attr' : {
+            'class' : 'form-control',
+             'placeholder' : 'Select deadline'
+          }
+         } )}} 
+      </div>
+        <div class="form-group">
+        <label for="image" class="text text-primary">Todo Image</label>
+         {{ form_widget (TodoForm.image, {
+          'attr' : {
+            'class' : 'form-control',
+            'placeholder' : 'Enter image URL'
+          }
+         } )}} 
+      </div>
+    {{ form_widget (TodoForm) }}
+      <input class="btn btn-primary mt-3" type="submit" value="Add">
+    {{ form_end (TodoForm) }}
+  </div>
 </center>
 {% endblock %}
