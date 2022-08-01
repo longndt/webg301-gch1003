@@ -17,9 +17,10 @@
                   <div class="card card-title">
                      <h3 class="text text-success"> {{ book.title }} </h3>
                   </div>
+                  {% if book.quantity >=1 %}
                   <div class="card card-body">
                      <h5 class="text text-danger"> Price: {{ book.price }} $ </h5>
-                     <h5 class="text text-info"> Quantity: {{ book.quantity}} </h5>
+                     <h5 class="text text-info"> In-stock: {{ book.quantity }} </h5>
                   </div>
                   <div class="card card-footer">
                      <form action="" method="post">
@@ -29,6 +30,13 @@
                          <input class="btn btn-success mt-3" type="submit" value="Add to cart">
                      </form>
                   </div>
+                  {% else %}
+                  <div class="card card-body">
+                     <h5 class="text text-danger"> Price: {{ book.price }} $ </h5>
+                     <h5 class="text text-primary"> Out of stock </h5>
+                  </div>
+                  {% endif %}
+                 
                </div>
             </div>
          {% endfor %}
