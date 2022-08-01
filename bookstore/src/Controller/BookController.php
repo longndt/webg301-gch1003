@@ -23,6 +23,15 @@ class BookController extends AbstractController
         ]);
   }
 
+  #[Route('/list', name: 'book_list')]
+  public function bookList () {
+    $books = $this->getDoctrine()->getRepository(Book::class)->findAll();
+    return $this->render('book/list.html.twig',
+        [
+            'books' => $books
+        ]);
+  }
+
   #[Route('/detail/{id}', name: 'book_detail')]
   public function bookDetail ($id, BookRepository $bookRepository) {
     $book = $bookRepository->find($id);

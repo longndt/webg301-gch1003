@@ -22,6 +22,15 @@ class GenreController extends AbstractController
               'genres' => $genres
           ]);
     }
+
+    #[Route('/list', name: 'genre_list')]
+    public function genreList () {
+      $genres = $this->getDoctrine()->getRepository(Genre::class)->findAll();
+      return $this->render('genre/list.html.twig',
+          [
+              'genres' => $genres
+          ]);
+    }
   
     #[Route('/detail/{id}', name: 'genre_detail')]
     public function genreDetail ($id, GenreRepository $genreRepository) {

@@ -14,10 +14,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/author')]
 class AuthorController extends AbstractController
 {
-    #[Route('/index', name: 'author_index')]
+  #[Route('/index', name: 'author_index')]
   public function authorIndex () {
     $authors = $this->getDoctrine()->getRepository(Author::class)->findAll();
     return $this->render('author/index.html.twig',
+        [
+            'authors' => $authors
+        ]);
+  }
+
+  #[Route('/list', name: 'author_list')]
+  public function authorList () {
+    $authors = $this->getDoctrine()->getRepository(Author::class)->findAll();
+    return $this->render('author/list.html.twig',
         [
             'authors' => $authors
         ]);
