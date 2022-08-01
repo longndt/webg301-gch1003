@@ -79,7 +79,7 @@ class BookController extends AbstractController
         $form = $this->createForm(BookType::class,$book);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager = $this->getDoctrine()->getManager();
+            $manager = $this->getDoctrine()->getManager()->getRepository(Book::class);
             $manager->persist($book);
             $manager->flush();
             $this->addFlash('Info','Edit book successfully !');
