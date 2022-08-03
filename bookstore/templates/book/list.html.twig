@@ -7,36 +7,27 @@
    <div class="card-group">
       <div class="row">
          {% for book in books %}
-            <div class="col-md-4 mt-3">
+            <div class="col-md-4 mt-4">
                <div class="card">
-                  <div class="card card-img-top">
                      <a href="{{ path('book_detail', {'id' : book.id })}}">
                         <img src="{{ book.image }}" width="150" height="150">
                      </a>
-                  </div>
-                  <div class="card card-title">
                      <h3 class="text text-success"> {{ book.title }} </h3>
-                  </div>
                   {% if book.quantity >=1 %}
-                  <div class="card card-body">
-                     <h5 class="text text-danger"> Price: {{ book.price }} $ </h5>
-                     <h5 class="text text-info"> In-stock: {{ book.quantity }} </h5>
-                  </div>
-                  <div class="card card-footer">
-                     <form action="" method="post">
-                        <div class="form-group">
-                           <input type="number" min="1" max="{{ book.quantity }}">
-                        </div>
-                         <input class="btn btn-success mt-3" type="submit" value="Add to cart">
-                     </form>
-                  </div>
+                        <h5 class="text text-primary"> Price: {{ book.price }} $ </h5>
+                        <h5 class="text text-danger"> In-stock: {{ book.quantity }} </h5>
+                     </div>
+                     <div class="card card-footer mt-1">
+                        <form action="" method="post">
+                           <div class="form-group">
+                              <input type="number" min="1" max="{{ book.quantity }}">
+                           </div>
+                           <input class="btn btn-success mt-3" type="submit" value="Add to cart">
+                        </form>
                   {% else %}
-                  <div class="card card-body">
-                     <h5 class="text text-danger"> Price: {{ book.price }} $ </h5>
-                     <h5 class="text text-primary"> Out of stock </h5>
-                  </div>
+                        <h5 class="text text-primary"> Price: {{ book.price }} $ </h5>
+                        <h5 class="text text-danger"> Out of stock </h5>      
                   {% endif %}
-                 
                </div>
             </div>
          {% endfor %}
