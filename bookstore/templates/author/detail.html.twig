@@ -29,7 +29,16 @@
             </tr>
             <tr class="h4">
                <th class="col-md-4">Published Books</th>
-               <td class="col-md-8"></td>
+               <td class="col-md-8">
+               {% if author.books != null %}
+                  {% for book in author.books %}
+                     <a href="{{ path('book_detail', {'id' : book.id })}}">
+                        {{ book.title }} 
+                     </a>
+                     <br>
+                  {% endfor %}
+               {% endif %}
+               </td>
             </tr>
          </table>
       </div>

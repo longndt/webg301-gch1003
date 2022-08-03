@@ -16,8 +16,21 @@
                </th>
             </tr>
             <tr class="h4">
+               <th class="col-md-3">Total books</th>
+               <td class="col-md-7">{{ genre.books | length }}</td>
+            </tr>
+            <tr class="h4">
                <th class="col-md-3">Book List</th>
-               <td class="col-md-7"></td>
+               <td class="col-md-7">
+                  {% if genre.books != null %}
+                     {% for book in genre.books %}
+                        <a href="{{ path('book_detail', {'id' : book.id })}}">
+                           {{ book.title }} 
+                        </a>
+                        <br>
+                     {% endfor %}
+               {% endif %}
+               </td>
             </tr>
          </table> 
       </div>

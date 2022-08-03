@@ -33,12 +33,31 @@
             {% endif %}           
             </tr>
             <tr class="h4">
-               <th>Book Genre</th>
-               <td></td>
+               <th>Genre</th>
+               <td>
+               {% if book.genre != null %}
+                  <a class="text-decoration-none" href="{{ path('genre_detail', {'id' : book.genre.id })}}">
+                     {{ book.genre.name }}
+                  </a>    
+               {% else %}
+                     <i>N/A</i>
+               {% endif %}
+             </td>
             </tr>
             <tr class="h4">
                <th>Author(s)</th>
-               <td></td>
+               <td>
+               {% if book.authors == null %}
+                  <i>Undefined</i>
+               {% else %}
+                  {% for author in book.authors %}
+                    <a class="text-decoration-none" href="{{ path('author_detail', {'id' : author.id })}}">
+                     {{ author.name }} 
+                    </a>
+                     <br>
+                  {% endfor %}
+               {% endif %}
+               </td>
             </tr>
          </table>
       </div>
