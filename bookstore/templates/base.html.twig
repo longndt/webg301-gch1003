@@ -16,6 +16,54 @@
         {% endblock %}
     </head>
     <body>
+        {% block header %}
+        <div class="container col-10 mt-3">
+        {# bs5-nav-ul #}
+        <ul class="nav justify-content-center bg-warning">
+            <li class="nav-item h1">
+                <a class="nav-link text-danger" href="{{ path('home')}}">Home</a>
+            </li>
+            <li class="nav-item h1">
+                <a class="nav-link text-danger" href="{{ path('book_list')}}">Store</a>
+            </li>
+              <li class="nav-item h1">
+                <a class="nav-link text-danger" href="{{ path('book_index')}}">Book</a>
+            </li>
+              <li class="nav-item h1">
+                <a class="nav-link text-danger" href="{{ path('author_index')}}">Author</a>
+            </li>
+            <li class="nav-item h1">
+                <a class="nav-link text-danger" href="{{ path('genre_index')}}">Genre</a>
+            </li>    
+            <li class="nav-item h1">
+                <a class="nav-link text-danger" data-bs-toggle="modal" data-bs-target="#modelId">About</a>
+            </li>
+        </ul>
+        </div>
+        {# bs5-modal-default #}
+        
+        <!-- Modal -->
+        <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">About</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container text-center">
+                            <h5 class="text text-primary">Demo web application by Symfony</h5>
+                            <h6 class="text text-success">Copyright by Greenwich University (Vietnam)</h6>
+                            <img src="https://duhocvinedu.edu.vn/wp-content/uploads/2020/11/university-of-greenwich-diem-den-day-uy-vong-o-nuoc-anh.jpg"
+                            width="250" height="200">
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% endblock %}
         {% block flash %}
             <div class="container col-md-6 text-center mt-3">
                 {% for flash in app.session.flashBag.get('Info') %}
@@ -27,5 +75,11 @@
             </div>
         {% endblock %}
         {% block body %}{% endblock %}
+
+        {% block footer %}
+        <div class="container col-10 mt-3 text-center">
+            <p class="alert alert-success h5">WEB PROJECT - WEBG301 - SUMMER 2022</p>
+        </div>
+        {% endblock %}
     </body>
 </html>
