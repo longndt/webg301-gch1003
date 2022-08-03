@@ -16,7 +16,7 @@ class GenreType extends AbstractType
         $builder
             ->add('name', TextType::class,
             [
-                'required' => true, //optional (Not Null)
+                //'required' => true, //optional (Not Null)
                 'label' => 'Genre name',
                 'attr' => [
                     'minlength' => 3,
