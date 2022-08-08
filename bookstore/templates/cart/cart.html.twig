@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="container col-md-8 text-center mt-3">
+{# nhận dữ liệu thông qua session #}
+<h4> Book Id: {{ app.session.get('bookid') }} </h4>
+<form action="{{ path('make_order') }}" method="post">
+   <input class="btn btn-success" type="submit" value="Make order">
+</form>
+</div>
+{% endblock %}
