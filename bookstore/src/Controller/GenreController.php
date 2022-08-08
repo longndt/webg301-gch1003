@@ -53,7 +53,6 @@ class GenreController extends AbstractController
       $genre = $managerRegistry->getRepository(Genre::class)->find($id);
       if ($genre == null) {
           $this->addFlash('Warning', 'Genre not existed !');
-      
       } 
       //check xem còn book trong genre hay không trước khi xóa
       else if (count($genre->getBooks()) > 0) {
