@@ -9,7 +9,9 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 #[Route('/genre')]
 class GenreController extends AbstractController
@@ -45,6 +47,7 @@ class GenreController extends AbstractController
           ]);
     }
   
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/delete/{id}', name: 'genre_delete')]
     public function genreDelete ($id, ManagerRegistry $managerRegistry) {
       $genre = $managerRegistry->getRepository(Genre::class)->find($id);

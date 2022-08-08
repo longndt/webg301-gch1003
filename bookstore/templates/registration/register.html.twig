@@ -1,9 +1,11 @@
+{% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block header %} {% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<div class="container text-center col-md-4 mt-3 card bg-light">
+    <h1 class="text-success">Register</h1>
 
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.username) }}
@@ -12,6 +14,9 @@
         }) }}
         {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn">Register</button>
+        <button type="submit" class="btn btn-info mb-3">Register</button>
     {{ form_end(registrationForm) }}
+</div>
 {% endblock %}
+
+{% block footer %} {% endblock %}

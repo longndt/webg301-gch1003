@@ -19,12 +19,10 @@
         {% block header %}
         <div class="container col-10 mt-3">
         {# bs5-nav-ul #}
+        {% if is_granted('ROLE_ADMIN') %}
         <ul class="nav justify-content-center bg-warning">
             <li class="nav-item h1">
                 <a class="nav-link text-danger" href="{{ path('home')}}">Home</a>
-            </li>
-            <li class="nav-item h1">
-                <a class="nav-link text-danger" href="{{ path('book_list')}}">Store</a>
             </li>
               <li class="nav-item h1">
                 <a class="nav-link text-danger" href="{{ path('book_index')}}">Book</a>
@@ -36,9 +34,23 @@
                 <a class="nav-link text-danger" href="{{ path('genre_index')}}">Genre</a>
             </li>    
             <li class="nav-item h1">
+                <a class="nav-link text-danger" href="{{ path('app_logout')}}">Logout <u><i>({{ app.user.username }})</i></u></a>
+            </li>   
+        </ul>
+        {% else %}  <!-- ROLE_CUSTOMER -->
+        <ul class="nav justify-content-center bg-warning">
+            <li class="nav-item h1">
+                <a class="nav-link text-danger" href="{{ path('book_list')}}">Store</a>
+            </li>   
+            <li class="nav-item h1">
                 <a class="nav-link text-danger" data-bs-toggle="modal" data-bs-target="#modelId">About</a>
             </li>
+            <li class="nav-item h1">
+                <a class="nav-link text-danger" href="{{ path('app_logout')}}">Logout <u><i>({{ app.user.username }})</i></u></a>
+            </li>   
         </ul>
+        {% endif %}
+        
         </div>
         {# bs5-modal-default #}
         
