@@ -126,7 +126,14 @@ class BookController extends AbstractController
 
   #[IsGranted('ROLE_CUSTOMER')]
   #[Route('/search', name: 'search_book')]
-  public function searchBook(BookRepository $bookRepository) {
-    
+  public function searchBook(BookRepository $bookRepository, Request $request) {
+    $books = $bookRepository->searchBook($request->get('keyword'));
+    // if ($books == null) {
+    //   $this->addFlash("Warning", "No book found !");
+    // }
+    return $this->render('book/list.html.twig', 
+    [
+        'books' => $books
+    ]);
   }
 }

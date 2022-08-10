@@ -79,15 +79,16 @@ class BookRepository extends ServiceEntityRepository
         ;
     }
 
-    /*
-    public function findOneBySomeField($value): ?Book
+    //SQL: SELECT * FROM Book WHERE title LIKE % 'keyword' %
+    public function searchBook($keyword) 
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder('book')
+            ->andWhere('book.title LIKE :key')
+            ->setParameter('key', '%' . $keyword . '%')
+            ->orderBy('book.price', 'ASC')
+            ->setMaxResults(5)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
 }
