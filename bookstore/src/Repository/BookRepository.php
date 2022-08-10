@@ -86,7 +86,7 @@ class BookRepository extends ServiceEntityRepository
             ->andWhere('book.title LIKE :key')
             ->setParameter('key', '%' . $keyword . '%')
             ->orderBy('book.price', 'ASC')
-            ->setMaxResults(5)
+            ->setMaxResults(20)
             ->getQuery()
             ->getResult()
         ;

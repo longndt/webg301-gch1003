@@ -9,6 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -29,6 +30,8 @@ class BookController extends AbstractController
   #[Route('/list', name: 'book_list')]
   public function bookList () {
     $books = $this->getDoctrine()->getRepository(Book::class)->findAll();
+    $session = new Session();
+    $session->set('search', false);
     return $this->render('book/list.html.twig',
         [
             'books' => $books
@@ -131,9 +134,11 @@ class BookController extends AbstractController
     // if ($books == null) {
     //   $this->addFlash("Warning", "No book found !");
     // }
+    $session = $request->getSession();
+    $session->set('search', true);
     return $this->render('book/list.html.twig', 
     [
-        'books' => $books
+        'books' => $books,
     ]);
   }
 }
