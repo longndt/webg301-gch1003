@@ -47,22 +47,37 @@ class BookRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Book[] Returns an array of Book objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    //SQL: SELECT * FROM Book ORDER BY id DESC
+    //Purpose: Newest books will be displayed first
+    //DQL (Doctrine Query Language)
+    public function sortBookByIdDesc()
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('book')
+            ->orderBy('book.id', 'DESC')
+            //ASC: Ascending (tăng dần)
+            //DESC: Descending (giảm dần)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
+    public function sortBookPriceAsc()
+    {
+        return $this->createQueryBuilder('book')
+            ->orderBy('book.price', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function sortBookPriceDesc()
+    {
+        return $this->createQueryBuilder('book')
+            ->orderBy('book.price', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     /*
     public function findOneBySomeField($value): ?Book

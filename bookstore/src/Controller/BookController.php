@@ -6,17 +6,20 @@ use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/book')]
 class BookController extends AbstractController
 {
+  #[IsGranted('ROLE_ADMIN')]
   #[Route('/index', name: 'book_index')]
-  public function bookIndex () {
-    $books = $this->getDoctrine()->getRepository(Book::class)->findAll();
+  public function bookIndex (BookRepository $bookRepository) {
+    //$books = $this->getDoctrine()->getRepository(Book::class)->findAll();
+    $books = $bookRepository->sortBookByIdDesc();
     return $this->render('book/index.html.twig',
         [
             'books' => $books
@@ -99,5 +102,31 @@ class BookController extends AbstractController
             'bookForm' => $form
         ]);
     }
+  }
+
+  #[IsGranted('ROLE_CUSTOMER')]
+  #[Route('/price/asc', name: 'sort_price_ascending')]
+  public function sortPriceAscending (BookRepository $bookRepository) {
+    $books = $bookRepository->sortBookPriceAsc();
+    return $this->render('book/list.html.twig', 
+    [
+        'books' => $books
+    ]);
+  }
+
+  #[IsGranted('ROLE_CUSTOMER')]
+  #[Route('/price/desc', name: 'sort_price_descending')]
+  public function sortPriceDescending (BookRepository $bookRepository) {
+    $books = $bookRepository->sortBookPriceDesc();
+    return $this->render('book/list.html.twig', 
+    [
+        'books' => $books
+    ]);
+  }
+
+  #[IsGranted('ROLE_CUSTOMER')]
+  #[Route('/search', name: 'search_book')]
+  public function searchBook(BookRepository $bookRepository) {
+    
   }
 }
