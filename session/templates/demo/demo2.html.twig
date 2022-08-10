@@ -1,0 +1,6 @@
+<h1>Demo 2</h1>
+<h3>Subject name: {{ app.session.get ('web') }}</h3>
+
+{% for t in app.session.get('cities') %}
+   {{ t }} <br>
+{% endfor %}

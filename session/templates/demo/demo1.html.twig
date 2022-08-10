@@ -1,0 +1,9 @@
+<h1>Demo 1</h1>
+{# tạo biến local (chỉ truy xuất được trong file này) #}
+{% set web1 = "Web Project" %}
+{# tạo biến global sử dụng session (có thể truy xuất trong toàn bộ project) #}
+{{ app.session.set ('web', "Web Project") }}
+ 
+<br>
+<a href="{{ path('demo2') }}">Move to Demo2</a>
+<br>

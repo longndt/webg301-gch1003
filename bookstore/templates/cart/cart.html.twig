@@ -1,11 +1,45 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+{% set book = app.session.get('book') %}
+{% set quantity = app.session.get('quantity') %}
 <div class="container col-md-8 text-center mt-3">
-{# nhận dữ liệu thông qua session #}
-<h4> Book Id: {{ app.session.get('bookid') }} </h4>
-<form action="{{ path('make_order') }}" method="post">
-   <input class="btn btn-success" type="submit" value="Make order">
-</form>
+   <div class="row">
+      <div class="col-md-4">
+         <img class="img-thumbnail" src="{{ book.image }}"
+         width="200" height="200">
+      </div>
+      <div class="col-md-8">
+         <table class="table table-bordered">
+            <tr>
+               <th class="text text-success" colspan="6">Order Detail</th>
+            </tr>
+            <tr>
+               <th>Customer Name</th>
+               <th>Book Title</th>
+               <th>Book Price</th>
+               <th>Order Quantity</th>
+               <th>Total Price</th>
+               <th>Order Date</th>
+            </tr>
+            <tr>
+               <td>{{ app.user.username }}</td>
+               <td>{{ book.title }}</td>
+               <td>$ {{ book.price }}</td>
+               <td>{{ quantity }}</td>
+               {% set total = quantity * book.price %}
+               <td>$ {{ total }}</td>
+               {{ app.session.set('total', total) }}
+               <td>{{ app.session.get('date') | date('d/m/Y') }}</td>
+               {{ app.session.set('date', date) }}
+           </tr>
+            <tr>
+               <th colspan="6">
+                  <a class="btn btn-primary" href="{{ path('make_order') }}">Make order</a>
+               </th>
+            </tr>
+         </table>
+      </div>
+   </div>
 </div>
 {% endblock %}
