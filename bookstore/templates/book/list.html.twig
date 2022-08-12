@@ -56,7 +56,7 @@
 								{% endif %}
 								<div class="card">
 									<a href="{{ path('book_detail', {'id' : book.id })}}">
-										<img src="{{ book.image }}" width="150" height="150">
+										<img src="{{ asset('images/books/'~book.image) }}" width="150" height="150">
 									</a>
 									<h3 class="text text-success">
 										{{ book.title }}
