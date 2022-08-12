@@ -98,17 +98,21 @@ class Book
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
+      //Note: bỏ string ở hàm get & set Image
+      public function getImage()
+      {
+          return $this->image;
+      }
+  
+      public function setImage($image): self
+      {
+          //nếu người dùng upload ảnh mới thì set giá trị
+          //ngược lại thì giữ nguyên ảnh cũ
+          if ($image != null) {
+              $this->image = $image;
+          }
+          return $this;
+      }
 
     /**
      * @return Collection<int, Author>

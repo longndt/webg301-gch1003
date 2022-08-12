@@ -2,18 +2,19 @@
 
 namespace App\Form;
 
-use App\Entity\Author;
 use App\Entity\Book;
 use App\Entity\Genre;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Author;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class BookType extends AbstractType
 {
@@ -46,12 +47,15 @@ class BookType extends AbstractType
                 'label' => 'Published date',
                 'widget' => 'single_text'
             ])
-            ->add('image' ,TextType::class,
+            ->add('image', FileType::class,
             [
                 'label' => 'Book image',
-                'attr' => [
-                    'maxlength' => 255
-                ]
+                'data_class' => null,
+                'required' => is_null ($builder->getData()->getImage())
+                 //TH1: Book đã có image thì không yêu cầu upload file ảnh mới
+                 //getImage() != null => required = false
+                //TH2: Book chưa có image thì yêu cầu upload file ảnh
+                 //getImage() = null => required = true    
             ])
             /* 
             Thông tin chứa dữ liệu của bảng khác trong DB

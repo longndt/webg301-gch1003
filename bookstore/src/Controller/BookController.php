@@ -12,6 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
+use function PHPUnit\Framework\throwException;
 
 #[Route('/book')]
 class BookController extends AbstractController
@@ -73,6 +76,31 @@ class BookController extends AbstractController
     $form = $this->createForm(BookType::class,$book);
     $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {
+      //bổ sung code upload ảnh
+         //B1: lấy ra ảnh vừa upload
+         $img = $book->getImage();
+         //B2: set tên mới cho ảnh => đảm bảo tên ảnh là duy nhất trong thư mục
+         $imgName = uniqid(); //uniqid : tạo ra string duy nhất
+         //B3: lấy ra đuôi (extension) của ảnh
+         //Yêu cầu cần thay đổi code của entity Book
+         $imgExtension = $img->guessExtension();
+         //B4: hoàn thiện tên mới cho ảnh (giữ đuôi cũ và thay tên mới)
+         $imageName = $imgName . "." . $imgExtension;
+         //VD: greenwich.jpg 
+         //B5: di chuyển ảnh về thư mục chỉ định trong project
+         try {
+            $img->move(
+               $this->getParameter('book_image'),
+               $imageName
+               //di chuyển file ảnh upload về thư mục cùng với tên mới
+               //note: cầu hình parameter trong file services.yaml
+            );
+         } catch (FileException $e) {
+            throwException($e);
+         }
+         //B6: set dữ liệu của image vào object book
+         $book->setImage($imageName);
+         //lưu dữ liệu của book vào DB
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($book);
         $manager->flush();
@@ -95,6 +123,25 @@ class BookController extends AbstractController
         $form = $this->createForm(BookType::class,$book);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+          //kiểm tra xem người dùng có muốn upload ảnh mới hay không
+            //nếu có thì thực hiện code upload ảnh
+            //nếu không thì bỏ qua
+            $imageFile = $form['image']->getData();
+            if ($imageFile != null) {
+               $image = $book->getImage();
+               $imgName = uniqid();
+               $imgExtension = $image->guessExtension();
+               $imageName = $imgName . "." . $imgExtension;
+               try {
+                  $image->move(
+                     $this->getParameter('book_image'),
+                     $imageName
+                  );
+               } catch (FileException $e) {
+                  throwException($e);
+               }
+               $book->setImage($imageName);
+            }
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($book);
             $manager->flush();

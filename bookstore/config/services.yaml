@@ -5,6 +5,10 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     timezone: '%env(APP_TIMEZONE)%'
+
+     # set thư mục chứa ảnh upload cho book
+    book_image: '%kernel.project_dir%/public/images/books'
+    
 services:
     # default configuration for services in *this* file
     _defaults:
