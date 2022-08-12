@@ -2,7 +2,7 @@
 
 {% block body %}
 {% set book = app.session.get('book') %}
-{% set quantity = app.session.get('quantity') %}
+{% set user = app.session.get('user') %}
 <div class="container col-md-8 text-center mt-3">
    <div class="row">
       <div class="col-md-4">
@@ -23,18 +23,18 @@
                <th>Order Date</th>
             </tr>
             <tr>
-               <td>{{ app.user.username }}</td>
+               <td>{{ user.username }}</td>
                <td>{{ book.title }}</td>
                <td>$ {{ book.price }}</td>
-               <td>{{ quantity }}</td>
-               {% set total = quantity * book.price %}
-               <td>$ {{ total }}</td>
-               {{ app.session.set('total', total) }}
-               <td>{{ app.session.get('date') | date('d/m/Y') }}</td>
+               <td>{{ app.session.get('quantity')  }}</td>
+               <td>$ {{ app.session.get('price') }}</td>
+               <td>{{ app.session.get('datetime') | date('d/m/Y H:i:s') }}</td>
            </tr>
             <tr>
                <th colspan="6">
-                  <a class="btn btn-primary" href="{{ path('make_order') }}">Make order</a>
+                  <a class="btn btn-primary" href="{{ path('make_order') }}"
+                  onclick="return confirm('Are you sure to delete this order ?');";
+                  >Make order</a>
                </th>
             </tr>
          </table>
